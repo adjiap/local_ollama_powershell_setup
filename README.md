@@ -1,4 +1,4 @@
-# Local (offline) Ollama LLM Docker PowerShell code
+# Local (offline) Ollama PowerShell Setup
 
 > [!NOTE]  
 > The basis of this knowledge is the [Ollama](https://ollama.com/) Open-Source instance
@@ -12,6 +12,7 @@
     <a href="#getting-started">Getting Started</a>
     <ul>
       <li><a href="#installation">Installation</a></li>
+      <li><a href="#installation-of-scripts-bundled-with-ollama">Installation of scripts bundled with Ollama</a></li>
     </ul>
   </li>
   <li><a href="#acknowledgements">Acknowledgements</a></li>
@@ -73,7 +74,20 @@ winget install Docker.DockerDesktop -y
 For Linux, follow the setup [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
 #### 3. Use the scripts
-That's it, you can now copy the scripts anywhere in your computer, and use the PowerShell Script that you'd need for your machine
+That's it, you can now copy the scripts anywhere in your computer, and use the PowerShell Script that you'd need for your machine. You can access the Open WebUI by using any browser and putting in the URL http://localhost:3000
+> [!NOTE]
+> When you first enter open WebUI, you need to sign up for an account. Just use a "dummy" account, and then put in the password (try not to lose it)
+> 
+> ![image](https://github.com/user-attachments/assets/f7f73b74-144d-4c62-a347-cf76bf0f8451)
+
+## Installation of scripts bundled with Ollama
+Under the `ps_scripts_bundled` folder, ther are nearly identical PowerShell scripts, but it also instantiates Ollama together with Open WebUI in the same docker image.
+You'd still however need to download the Ollama models after setting up the Open WebUI, and you can do so like this:'
+- Go to Admin Settings
+![image](https://github.com/user-attachments/assets/890a61f3-e751-4d6d-80dd-1eaf0e60cf84)
+
+- Go to Settings -> Models -> Pull Models and enter the name of the suggested Ollama models as above (e.g. llama3.2, llama3.1:8b
+![image](https://github.com/user-attachments/assets/10369250-ba3c-471c-a4dc-650fb8e48753)
 
 <!-- USAGE EXAMPLES -->
 ## Usage
