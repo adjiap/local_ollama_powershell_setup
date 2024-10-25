@@ -3,24 +3,20 @@
 > [!NOTE]  
 > The basis of this knowledge is the [Ollama](https://ollama.com/) Open-Source instance
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-    <li><a href="#license">License</a></li>
-  </ol>
-</details>
+## Table of Contents
+<ol>
+  <li>
+    <a href="#about-the-project">About The Project</a>
+  </li>
+  <li>
+    <a href="#getting-started">Getting Started</a>
+    <ul>
+      <li><a href="#installation">Installation</a></li>
+    </ul>
+  </li>
+  <li><a href="#acknowledgements">Acknowledgements</a></li>
+  <li><a href="#license">License</a></li>
+</ol>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -42,7 +38,7 @@ There are no prerequisites, other than having a good enough HW (no need for next
 * RAM: 32GB
 * OS: Windows 11 Home
 
-#### 1. Setting up Ollama
+#### 1. Setting up Ollama<sup>[1]</sup>
 Firstly you need to get [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/), if you haven't, and then just put
 
 ```powershell
@@ -66,6 +62,7 @@ ollama pull llama3.2      # For laptops
 ollama pull llama3.2:1b   # For weaker laptops
 ollama pull gemma2:2b     # For laptops, but a bit stronger (not-tested)
 ollama pull llava         # For analyzing images
+```
 
 #### 2. Setting up Docker
 
@@ -83,16 +80,16 @@ That's it, you can now copy the scripts anywhere in your computer, and use the P
 ### Summary Sam / Note Summary (TBD)
 Use the prompts on this text, in order to summarize your notes concisely (based on llama3.x LLM)
 
-### Curator
+### Curator (TBD)
 Use the prompts on this text, in order to analyze pictures (based on llava LLM)
 
-### Code Talker
+### Code Talker (TBD)
 Use the prompts on this text, in order to generate code to your liking. (based on codellama)
 
 ## References
-[^1] https://www.youtube.com/watch?v=Wjrdr0NU4Sk
+<sup>[1]</sup> https://www.youtube.com/watch?v=Wjrdr0NU4Sk
 
-[^2] https://docs.openwebui.com/
+<sup>[2]</sup> https://docs.openwebui.com/
 
 ## Acknowledgements
 * [NetworkChuck](https://www.youtube.com/@NetworkChuck)
