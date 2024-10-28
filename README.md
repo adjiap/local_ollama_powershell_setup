@@ -81,7 +81,7 @@ That's it, you can now copy the scripts anywhere in your computer, and use the P
 > ![image](https://github.com/user-attachments/assets/f7f73b74-144d-4c62-a347-cf76bf0f8451)
 
 ### Installation of scripts bundled with Ollama
-Under the `ps_scripts_bundled` folder, ther are nearly identical PowerShell scripts, but it also instantiates Ollama together with Open WebUI in the same docker image.
+Under the `ps_scripts_bundled` folder, there are nearly identical PowerShell scripts, but it also instantiates Ollama together with Open WebUI in the same docker image.
 You'd still however need to download the Ollama models after setting up the Open WebUI, and you can do so like this:'
 - Go to Admin Settings
 ![image](https://github.com/user-attachments/assets/890a61f3-e751-4d6d-80dd-1eaf0e60cf84)
@@ -97,6 +97,16 @@ For a more precise prompt, use the following system prompts for the specific [us
 * [The Librarian](system_prompts/the_librarian.md)
 * [Curator](system_prompts/curator.md)
 * [Code Talker](system_prompts/code_talker.md)
+
+### Setting up system prompts in Open WebUI
+1. Go to Workspace at the top left
+2. Choose Models -> Create a Model
+3. Enter the model name (e.g. Summary Sam)
+4. Choose base model (e.g. llama3.1:8b)
+5. Enter system prompt (all the text in [Summary Sam](system_prompts/summary_sam.md))
+
+![image](https://github.com/user-attachments/assets/d8adceec-1beb-4147-8b06-91f3d66f9c98)
+
 
 ## References
 <sup>[1]</sup> https://www.youtube.com/watch?v=Wjrdr0NU4Sk
