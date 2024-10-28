@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-	A PowerShell script that's used to prepare a Docker image on Ollama **without** GPU support
+	A PowerShell script that's used to prepare an Open-WebUI Docker image **without** GPU support
 .DESCRIPTION
 	Target of this script, is to have it as a one-time setup for any computers, even for non-computer savvy users. They
-	would just need to have this script on their desktop, double-click it, and Docker (if it has been setup) as well
-	as Ollama will set things up.
+	would just need to have this script on their desktop, double-click it. As long as Docker and Ollama has been set up
+  in the background, Open-WebUI will be good to go
 #>
 
 $DockerArgs = @(

@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-	A PowerShell script that's used to prepare a Docker image on Ollama **with** GPU support
+	A PowerShell script that's used to prepare an Open-WebUI Docker image **with** GPU support
 .DESCRIPTION
 	Target of this script, is to have it as a one-time setup for any computers, even for non-computer savvy users. They
-	would just need to have this script on their desktop, double-click it, and Docker (if it has been setup) as well
-	as Ollama will set things up.
+	would just need to have this script on their desktop, double-click it. As long as Docker and Ollama has been set up
+  in the background, Open-WebUI will be good to go
 #>
 
 $DockerArgs = @(
@@ -17,19 +17,20 @@ $DockerArgs = @(
   "--restart", "always",
   "ghcr.io/open-webui/open-webui:cuda"
 ) 
+
 try {
   docker run $DockerArgs 2>&1
   if ($LASTEXITCODE -ne 0) {
       throw "Docker run failed with exit code $LASTEXITCODE"
   }
 }
-
 catch {
 	Write-Error $_.Exception.Message
 	# I added this just because end-users would be able to see what the problem was
 	Read-Host "Press Enter to exit"
 	break
 }
+
 Write-Output "Open-WebUI Instance running in the background. Open http://localhost:3000 in browser to access local LLM WebUI"
 # I added this just because end-users would be able to see that something happens
 Read-Host "Press Enter to continue"
