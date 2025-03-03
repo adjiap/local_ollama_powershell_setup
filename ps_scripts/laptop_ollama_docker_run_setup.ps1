@@ -18,9 +18,12 @@ $DockerArgs = @(
 ) 
 
 try {
-  docker run $DockerArgs 2>&1
-  if ($LASTEXITCODE -ne 0) {
-      throw "Docker run failed with exit code $LASTEXITCODE"
+  docker run $DockerArgs 2>$null
+  if ($LASTEXITCODE -eq 125) {
+    throw "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
+  }
+  elseif ($LASTEXITCODE -ne 0) {
+    throw "Docker run failed with exit code $LASTEXITCODE"
   }
 }
 catch {

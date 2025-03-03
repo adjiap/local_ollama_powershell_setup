@@ -7,21 +7,25 @@
   in the background, Open-WebUI will be good to go
 #>
 
+$ContainerName = "open-webui-cuda"
 $DockerArgs = @(
   "-d",
   "-p", "3000:8080",
   "--add-host=host.docker.internal:host-gateway",  # If I comment this one out, the docker run will still work
 	"--gpus=all",
   "-v", "open-webui:/app/backend/data",
-  "--name", "open-webui-cuda",
+  "--name", $ContainerName,
   "--restart", "always",
   "ghcr.io/open-webui/open-webui:cuda"
 ) 
 
 try {
-  docker run $DockerArgs 2>&1
-  if ($LASTEXITCODE -ne 0) {
-      throw "Docker run failed with exit code $LASTEXITCODE"
+  docker run $DockerArgs 2>$null
+  if ($LASTEXITCODE -eq 125) {
+    throw "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
+  }
+  elseif ($LASTEXITCODE -ne 0) {
+    throw "Docker run failed with exit code $LASTEXITCODE"
   }
 }
 catch {
