@@ -27,6 +27,17 @@ $DockerArgs = @(
   "--restart", "always"
 )
 
+try {
+  if ((docker ps 2>&1) -like "*error during connect*dockerDesktopLinuxEngine*") {
+    Write-Output "Docker Desktop is offline. Starting up Docker."
+    Start-Process -FilePath "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+    Start-Sleep -s 5 # Arbitrary 5 seconds of wait to start Docker
+  }
+} catch {
+  throw "Something went wrong with starting Docker. Please start it manually first."
+  break
+}
+
 if ($IsCUDACapable){
   Write-Output "NVIDIA GPU detected. Instantiating CUDA version"
   $DockerArgs += "--gpus=all"
