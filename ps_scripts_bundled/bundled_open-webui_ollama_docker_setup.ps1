@@ -53,7 +53,8 @@ else {
 try {
   docker run $DockerArgs ${RepoName}:$RepoTag 2>$null
   if ($LASTEXITCODE -eq 125) {
-    throw "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
+    Write-Warning "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
+    docker start $ContainerName
   }
   elseif ($LASTEXITCODE -ne 0) {
     throw "Docker run failed with exit code $LASTEXITCODE"
