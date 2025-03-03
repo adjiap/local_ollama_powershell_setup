@@ -8,6 +8,7 @@
   if it finds CUDA-Compatible Hardware.
 #>
 
+#region Initialize Variables
 $RepoName = "ghcr.io/open-webui/open-webui"
 $LocalPort = 3000
 $IsCUDACapable = (Get-WmiObject Win32_VideoController).Name -like "*NVIDIA*"
@@ -26,7 +27,9 @@ $DockerArgs = @(
   "--name", $ContainerName,
   "--restart", "always"
 )
+#endregion
 
+#region Test if Docker Engine is on
 try {
   if ((docker ps 2>&1) -like "*error during connect*dockerDesktopLinuxEngine*") {
     Write-Output "Docker Desktop is offline. Starting up Docker."
@@ -37,7 +40,9 @@ try {
   throw "Something went wrong with starting Docker. Please start it manually first."
   break
 }
+#endregion
 
+#region Update run arguments due to CUDA
 if ($IsCUDACapable){
   Write-Output "NVIDIA GPU detected. Instantiating CUDA version"
   $DockerArgs += "--gpus=all"
@@ -45,7 +50,9 @@ if ($IsCUDACapable){
 else {
   Write-Output "No NVIDIA GPU detected. Instantiating CPU version"
 }
+#endregion
 
+#region Run Open-WebUI Container
 try {
   docker run $DockerArgs ${RepoName}:$RepoTag 2>$null
   if ($LASTEXITCODE -eq 125) {
@@ -61,7 +68,10 @@ catch {
 	Read-Host "Press Enter to exit"
 	break
 }
+#endregion
 
+#region Inform user
 Write-Output "Open-WebUI Instance running in the background. Open http://localhost:${LocalPort} in browser to access local LLM WebUI"
 # I added this just because end-users would be able to see that something happens
 Read-Host "Press Enter to continue"
+#endregion
