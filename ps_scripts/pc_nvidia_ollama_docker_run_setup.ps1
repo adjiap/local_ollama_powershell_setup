@@ -7,16 +7,19 @@
   in the background, Open-WebUI will be good to go
 #>
 
+$RepoName = "ghcr.io/open-webui/open-webui"
+$RepoTag = "cuda"
 $ContainerName = "open-webui-cuda"
+$LocalPort = 3000
 $DockerArgs = @(
   "-d",
-  "-p", "3000:8080",
+  "-p", "${LocalPort}:8080",
   "--add-host=host.docker.internal:host-gateway",  # If I comment this one out, the docker run will still work
 	"--gpus=all",
   "-v", "open-webui:/app/backend/data",
   "--name", $ContainerName,
   "--restart", "always",
-  "ghcr.io/open-webui/open-webui:cuda"
+  "${RepoName}:$RepoTag"
 ) 
 
 try {
@@ -35,6 +38,6 @@ catch {
 	break
 }
 
-Write-Output "Open-WebUI Instance running in the background. Open http://localhost:3000 in browser to access local LLM WebUI"
+Write-Output "Open-WebUI Instance running in the background. Open http://localhost:${LocalPort} in browser to access local LLM WebUI"
 # I added this just because end-users would be able to see that something happens
 Read-Host "Press Enter to continue"

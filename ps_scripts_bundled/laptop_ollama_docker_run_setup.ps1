@@ -7,15 +7,19 @@
 	Open-WebUI and Ollama LLM.
 #>
 
+$RepoName = "ghcr.io/open-webui/open-webui"
+$RepoTag = "ollama"
+$ContainerName = "open-webui-bundled"
+$LocalPort = 3000
 $DockerArgs = @(
   "-d",
-  "-p", "3000:8080",
+  "-p", "${LocalPort}:8080",
   "--add-host=host.docker.internal:host-gateway",   # If I comment this one out, the docker run will still work
   "-v", "open-webui:/app/backend/data",
   "-v", "ollama:/root/.ollama",
-  "--name", "open-webui-bundled",
+  "--name", $ContainerName,
   "--restart", "always",
-  "ghcr.io/open-webui/open-webui:ollama"
+  "${RepoName}:$RepoTag"
 ) 
 
 try {
@@ -34,6 +38,6 @@ catch {
 	break
 }
 
-Write-Output "Open-WebUI Instance running in the background. Open http://localhost:3000 in browser to access local LLM WebUI"
+Write-Output "Open-WebUI Instance running in the background. Open http://localhost:${LocalPort} in browser to access local LLM WebUI"
 # I added this just because end-users would be able to see that something happens
 Read-Host "Press Enter to continue"
