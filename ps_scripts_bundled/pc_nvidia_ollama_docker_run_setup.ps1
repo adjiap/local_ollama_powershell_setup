@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-	A PowerShell script that's used to prepare  an Open-WebUI and Ollama Docker image **with** GPU support
+	A PowerShell script that's used to prepare an Open-WebUI and Ollama Docker image
 .DESCRIPTION
 	Target of this script, is to have it as a one-time setup for any computers, even for non-computer savvy users. They
 	would just need to have this script on their desktop, double-click it, and Docker (if it has been setup) will setup
-	Open-WebUI and Ollama LLM.
+	Open-WebUI and Ollama LLM. The script will automatically install the CUDA version if it finds CUDA-Compatible Hardware.
 #>
 
 $RepoName = "ghcr.io/open-webui/open-webui"

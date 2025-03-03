@@ -1,10 +1,11 @@
 <#
 .SYNOPSIS
-	A PowerShell script that's used to prepare an Open-WebUI Docker image **with** GPU support
+	A PowerShell script that's used to prepare an Open-WebUI Docker container
 .DESCRIPTION
-	Target of this script, is to have it as a one-time setup for any computers, even for non-computer savvy users. They
+	Target of this script, is to have it as a one-time setup for any computer, even for non-computer savvy users. They
 	would just need to have this script on their desktop, double-click it. As long as Docker and Ollama has been set up
-  in the background, Open-WebUI will be good to go
+  in the background, Open-WebUI will be good to go.  The script will automatically install the CUDA version
+  if it finds CUDA-Compatible Hardware.
 #>
 
 $RepoName = "ghcr.io/open-webui/open-webui"
