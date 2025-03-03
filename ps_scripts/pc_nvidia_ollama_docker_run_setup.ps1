@@ -8,22 +8,34 @@
 #>
 
 $RepoName = "ghcr.io/open-webui/open-webui"
-$RepoTag = "cuda"
-$ContainerName = "open-webui-cuda"
 $LocalPort = 3000
+$IsCUDACapable = (Get-WmiObject Win32_VideoController).Name -like "*NVIDIA*"
+$RepoTag =
+  if ($IsCUDACapable) {
+    "cuda"
+  } else {
+    "main"
+  }
+$ContainerName = "open-webui-$RepoTag"
 $DockerArgs = @(
   "-d",
   "-p", "${LocalPort}:8080",
   "--add-host=host.docker.internal:host-gateway",  # If I comment this one out, the docker run will still work
-	"--gpus=all",
   "-v", "open-webui:/app/backend/data",
   "--name", $ContainerName,
-  "--restart", "always",
-  "${RepoName}:$RepoTag"
-) 
+  "--restart", "always"
+)
+
+if ($IsCUDACapable){
+  Write-Output "NVIDIA GPU detected. Instantiating CUDA version"
+  $DockerArgs += "--gpus=all"
+}
+else {
+  Write-Output "No NVIDIA GPU detected. Instantiating CPU version"
+}
 
 try {
-  docker run $DockerArgs 2>$null
+  docker run $DockerArgs ${RepoName}:$RepoTag 2>$null
   if ($LASTEXITCODE -eq 125) {
     throw "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
   }

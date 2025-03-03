@@ -9,7 +9,8 @@
 
 $RepoName = "ghcr.io/open-webui/open-webui"
 $RepoTag = "ollama"
-$ContainerName = "open-webui-cuda-bundled"
+$IsCUDACapable = (Get-WmiObject Win32_VideoController).Name -like "*NVIDIA*"
+$ContainerName = "open-webui-bundled"
 $LocalPort = 3000
 $DockerArgs = @(
   "-d",
@@ -20,12 +21,19 @@ $DockerArgs = @(
   "-v", "ollama:/root/.ollama",
   "--name", $ContainerName,
   "--net=host",
-  "--restart", "always",
-  "${RepoName}:$RepoTag"
+  "--restart", "always"
 ) 
 
+if ($IsCUDACapable){
+  Write-Output "NVIDIA GPU detected. Instantiating CUDA version"
+  $DockerArgs += "--gpus=all", "--net=host"
+}
+else {
+  Write-Output "No NVIDIA GPU detected. Instantiating CPU version"
+}
+
 try {
-  docker run $DockerArgs 2>$null
+  docker run $DockerArgs ${RepoName}:$RepoTag 2>$null
   if ($LASTEXITCODE -eq 125) {
     throw "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
   }
