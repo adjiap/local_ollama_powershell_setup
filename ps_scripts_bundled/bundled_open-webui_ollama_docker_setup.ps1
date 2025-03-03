@@ -1,15 +1,16 @@
 <#
 .SYNOPSIS
-	A PowerShell script that's used to prepare an Open-WebUI Docker image **with** GPU support
+	A PowerShell script that's used to prepare an Open-WebUI and Ollama Docker image
 .DESCRIPTION
 	Target of this script, is to have it as a one-time setup for any computers, even for non-computer savvy users. They
-	would just need to have this script on their desktop, double-click it. As long as Docker and Ollama has been set up
-  in the background, Open-WebUI will be good to go
+	would just need to have this script on their desktop, double-click it, and Docker (if it has been setup) will setup
+	Open-WebUI and Ollama LLM. The script will automatically install the CUDA version if it finds CUDA-Compatible Hardware.
 #>
 
 $RepoName = "ghcr.io/open-webui/open-webui"
-$RepoTag = "cuda"
-$ContainerName = "open-webui-cuda"
+$RepoTag = "ollama"
+$IsCUDACapable = (Get-WmiObject Win32_VideoController).Name -like "*NVIDIA*"
+$ContainerName = "open-webui-bundled"
 $LocalPort = 3000
 $DockerArgs = @(
   "-d",
@@ -17,13 +18,22 @@ $DockerArgs = @(
   "--add-host=host.docker.internal:host-gateway",  # If I comment this one out, the docker run will still work
 	"--gpus=all",
   "-v", "open-webui:/app/backend/data",
+  "-v", "ollama:/root/.ollama",
   "--name", $ContainerName,
-  "--restart", "always",
-  "${RepoName}:$RepoTag"
+  "--net=host",
+  "--restart", "always"
 ) 
 
+if ($IsCUDACapable){
+  Write-Output "NVIDIA GPU detected. Instantiating CUDA version"
+  $DockerArgs += "--gpus=all", "--net=host"
+}
+else {
+  Write-Output "No NVIDIA GPU detected. Instantiating CPU version"
+}
+
 try {
-  docker run $DockerArgs 2>$null
+  docker run $DockerArgs ${RepoName}:$RepoTag 2>$null
   if ($LASTEXITCODE -eq 125) {
     throw "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
   }
