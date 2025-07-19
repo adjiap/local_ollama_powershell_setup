@@ -54,7 +54,7 @@ else {
 
 #region Run Open-WebUI Container
 try {
-  docker run $DockerArgs ${RepoName}:$RepoTag 2>$null
+  docker run $DockerArgs ${RepoName}:$RepoTag
   if ($LASTEXITCODE -eq 125) {
     Write-Warning "Open WebUI instance with the name '$ContainerName' already exists. Skipping instantiation."
     docker start $ContainerName
